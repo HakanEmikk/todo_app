@@ -2,13 +2,24 @@ import 'dart:core';
 
 class UserModel {
   UserModel({
-    required this.id,
-    required this.name,
-    required this.surname,
-    required this.nickname,
-    required this.password,
-    required this.mail,
+    this.id,
+    this.name,
+    this.surname,
+    this.nickname,
+    this.password,
+    this.mail,
+    this.createdDate,
   });
+
+  UserModel.fromJson(Map<String, dynamic> json) {
+    id = json['id'] as int?;
+    name = json['name'] as String?;
+    surname = json['surname'] as String?;
+    nickname = json['nickname'] as String?;
+    password = json['password'] as String?;
+    mail = json['mail'] as String?;
+    createdDate = json['created_date'] as DateTime?;
+  }
 
   int? id;
   String? name;
@@ -16,15 +27,7 @@ class UserModel {
   String? nickname;
   String? password;
   String? mail;
-
-  UserModel.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    name = json['name'];
-    surname = json['surname'];
-    nickname = json['nickname'];
-    password = json['password'];
-    mail = json['mail'];
-  }
+  DateTime? createdDate;
   Map<String, dynamic> toJson() {
     return {
       'id': id,
@@ -33,6 +36,7 @@ class UserModel {
       'nickname': nickname,
       'password': password,
       'mail': mail,
+      'created_date': createdDate,
     };
   }
 }

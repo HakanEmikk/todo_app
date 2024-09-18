@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:todo_app/views/home/home_page.dart';
-import 'package:todo_app/widgets/my_button.dart';
-import 'package:todo_app/widgets/my_text_form_field.dart';
+import 'package:get/get.dart';
+
+import '../../widgets/my_button.dart';
+import '../../widgets/my_text_form_field.dart';
+import 'controllers/login_controller.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -11,32 +13,39 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  final LoginController controller = Get.put(LoginController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        child: Padding(
-          padding: const EdgeInsets.only(left: 500, right: 500),
+      body: Padding(
+        padding: const EdgeInsets.only(left: 500, right: 500),
+        child: Form(
+          key: controller.loginFormKey,
           child: Column(
             children: [
               const SizedBox(
                 height: 200,
               ),
-              const MyTextFormField(
-                label: "kullanıcı adı",
+              MyTextFormField(
+                label: 'kullanıcı adı',
                 obscureText: false,
+                validator: controller.userNameValidator,
+                onChanged: controller.userNameOnChanged,
               ),
               const SizedBox(
                 height: 50,
               ),
-              const MyTextFormField(
-                label: "şifre",
+              MyTextFormField(
+                label: 'şifre',
                 obscureText: true,
+                validator: controller.passwordValidator,
+                onChanged: controller.passwordOnChanged,
               ),
               const SizedBox(
                 height: 50,
               ),
-              MyButton(onPressed: () {}, message: "Giriş Yap"),
+              MyButton(
+                  onPressed: controller.loginOnPressed, message: 'Giriş Yap'),
             ],
           ),
         ),
