@@ -16,8 +16,10 @@ class MyTextFormField extends StatefulWidget {
 class _MyTextFormFieldState extends State<MyTextFormField> {
   @override
   Widget build(BuildContext context) {
+    
     return Form(
       child: TextFormField(
+        
         obscureText: widget.obscureText,
         decoration: InputDecoration(
             border: OutlineInputBorder(), labelText: widget.label),
