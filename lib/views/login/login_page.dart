@@ -30,7 +30,7 @@ class _LoginPageState extends State<LoginPage> {
                 label: 'kullanıcı adı',
                 obscureText: false,
                 validator: controller.userNameValidator,
-                onChanged: controller.userNameOnChanged,
+                controller: controller.nickController,
               ),
               const SizedBox(
                 height: 50,
@@ -39,7 +39,7 @@ class _LoginPageState extends State<LoginPage> {
                 label: 'şifre',
                 obscureText: true,
                 validator: controller.passwordValidator,
-                onChanged: controller.passwordOnChanged,
+                controller: controller.passwordController,
               ),
               const SizedBox(
                 height: 50,

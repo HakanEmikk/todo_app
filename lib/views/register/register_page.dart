@@ -30,7 +30,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 label: 'Ad',
                 obscureText: false,
                 validator: controller.nameValidator,
-                onChanged: controller.nameOnChanged,
+                controller: controller.nameController,
               ),
               const SizedBox(
                 height: 50,
@@ -39,7 +39,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 label: 'soyad',
                 obscureText: false,
                 validator: controller.surnameValidator,
-                onChanged: controller.surnameOnChanged,
+                controller: controller.surnameController,
               ),
               const SizedBox(
                 height: 50,
@@ -48,7 +48,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 label: 'kulanıcı adı',
                 obscureText: false,
                 validator: controller.nicknameValidator,
-                onChanged: controller.nicknameOnChanged,
+                controller: controller.nicknameController,
               ),
               const SizedBox(
                 height: 50,
@@ -57,7 +57,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 label: 'şifre',
                 obscureText: true,
                 validator: controller.passwordValidator,
-                onChanged: controller.passwordOnChanged,
+                controller: controller.passwordController,
               ),
               const SizedBox(
                 height: 50,
@@ -66,7 +66,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 label: 'Mail',
                 obscureText: false,
                 validator: controller.mailValidator,
-                onChanged: controller.mailOnChanged,
+                controller: controller.mailController,
               ),
               const SizedBox(
                 height: 50,

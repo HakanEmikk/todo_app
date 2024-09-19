@@ -8,6 +8,7 @@ class UserModel {
     this.nickname,
     this.password,
     this.mail,
+    this.key,
     this.createdDate,
   });
 
@@ -18,6 +19,7 @@ class UserModel {
     nickname = json['nickname'] as String?;
     password = json['password'] as String?;
     mail = json['mail'] as String?;
+    key = json['key'] as String?;
     createdDate = json['created_date'] as DateTime?;
   }
 
@@ -28,15 +30,18 @@ class UserModel {
   String? password;
   String? mail;
   DateTime? createdDate;
+  String? key;
+
   Map<String, dynamic> toJson() {
     return {
-      'id': id,
-      'name': name,
-      'surname': surname,
-      'nickname': nickname,
-      'password': password,
-      'mail': mail,
-      'created_date': createdDate,
+      if (id != null) 'id': id,
+      if (name != null) 'name': name,
+      if (surname != null) 'surname': surname,
+      if (nickname != null) 'nickname': nickname,
+      if (password != null) 'password': password,
+      if (mail != null) 'mail': mail,
+      if (createdDate != null) 'created_date': createdDate,
+      if (key != null) 'key': key
     };
   }
 }

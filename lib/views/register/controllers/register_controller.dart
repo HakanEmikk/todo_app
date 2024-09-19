@@ -2,21 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
+import '../../../models/default_response_model.dart';
 import '../../../models/user_model.dart';
+import '../../../repositories/user_repository.dart';
 
 class RegisterController extends GetxController {
-  late UserModel userModel;
+  TextEditingController nameController = TextEditingController();
+  TextEditingController surnameController = TextEditingController();
+  TextEditingController nicknameController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  TextEditingController mailController = TextEditingController();
+
   final GlobalKey<FormState> registerFormKey = GlobalKey<FormState>();
   String? nameValidator(String? value) {
     if (value == null || value.isEmpty) {
       return 'isim  boş olamaz';
     }
     return null;
-  }
-
-  // ignore: use_setters_to_change_properties
-  void nameOnChanged(String? value) {
-    userModel.name = value;
   }
 
   String? surnameValidator(String? value) {
@@ -26,21 +28,11 @@ class RegisterController extends GetxController {
     return null;
   }
 
-  // ignore: use_setters_to_change_properties
-  void surnameOnChanged(String? value) {
-    userModel.surname = value;
-  }
-
   String? nicknameValidator(String? value) {
     if (value == null || value.length <= 8) {
       return '8 karakterden küçük olamaz';
     }
     return null;
-  }
-
-  // ignore: use_setters_to_change_properties
-  void nicknameOnChanged(String? value) {
-    userModel.nickname = value;
   }
 
   String? passwordValidator(String? value) {
@@ -50,11 +42,6 @@ class RegisterController extends GetxController {
     return null;
   }
 
-  // ignore: use_setters_to_change_properties
-  void passwordOnChanged(String? value) {
-    userModel.password = value;
-  }
-
   String? mailValidator(String? value) {
     if (value == null || value.isEmpty) {
       return 'boş olamaz ';
@@ -62,18 +49,23 @@ class RegisterController extends GetxController {
     return null;
   }
 
-  void mailOnChanged(String? value) {
-    // ignore: unnecessary_statements
-    userModel.mail;
-  }
-
-  void registerOnPressed() {
+  Future<void> registerOnPressed() async {
     if (registerFormKey.currentState!.validate()) {
-      return registerFormKey.currentState!.save();
-    }
-  }
+      registerFormKey.currentState!.save();
+      final UserModel user = UserModel();
+      user.mail = mailController.text;
+      user.name = nameController.text;
+      user.nickname = nicknameController.text;
+      user.password = passwordController.text;
+      user.surname = surnameController.text;
+      final DefaultResponseModel<void> response =
+          await UserRepository().register(user);
 
-  Future<UserModel> createUser() async {
-    throw UnimplementedError();
+      Get.showSnackbar(GetSnackBar(
+        message: response.message,
+      ));
+
+      print(user.mail);
+    }
   }
 }
