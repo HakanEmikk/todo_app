@@ -3,6 +3,6 @@ import '../models/user_model.dart';
 
 abstract class IUserRepository {
   Future<DefaultResponseModel<UserModel>> login(UserModel user);
-  Future<DefaultResponseModel<dynamic>> register(UserModel user);
+  Future<DefaultResponseModel<void>> register(UserModel user);
   Future<DefaultResponseModel> update(UserModel user);
 }

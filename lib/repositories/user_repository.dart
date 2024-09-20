@@ -28,9 +28,10 @@ class UserRepository extends IUserRepository {
           jsonDecode(response.body) as Map<String, dynamic>;
 
       return DefaultResponseModel<UserModel>(
-          message: data['message'] as String,
-          responseIsTrue: data['result'] as bool,
-          data: user);
+        message: data['message'] as String,
+        responseIsTrue: data['result'] as bool,
+        data: data['data'] as UserModel,
+      );
     } catch (e) {
       return DefaultResponseModel<UserModel>(
           responseIsTrue: false,
@@ -40,7 +41,7 @@ class UserRepository extends IUserRepository {
   }
 
   @override
-  Future<DefaultResponseModel<dynamic>> register(UserModel user) async {
+  Future<DefaultResponseModel<void>> register(UserModel user) async {
     try {
       print(user.toJson());
       final http.Response response = await http.post(

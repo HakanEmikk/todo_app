@@ -27,6 +27,7 @@ class LoginController extends GetxController {
 
   Future<void> loginOnPressed() async {
     UserModel user = UserModel();
+
     user.nickname = nickController.text;
     user.password = passwordController.text;
     if (loginFormKey.currentState!.validate()) {
@@ -36,6 +37,7 @@ class LoginController extends GetxController {
           await UserRepository().login(user);
 
       user = response.data!;
+      print(user.name);
       if (!response.responseIsTrue!) {
         Get.showSnackbar(GetSnackBar(message: response.message));
       }
