@@ -65,14 +65,29 @@ class UserRepository extends IUserRepository {
   }
 
   @override
-  Future<DefaultResponseModel<void>> update(UserModel user) async {
+  Future<DefaultResponseModel<UserModel>> update(UserModel user) async {
     try {
-      final http.Response response =
-          await http.put(Uri(host: AppConstants.API_URL, path: 'users'));
-      return DefaultResponseModel<void>.fromJson(
-          jsonDecode(response.body) as Map<String, dynamic>);
+      final http.Response response = await http.post(
+          Uri(
+            scheme: 'http',
+            host: AppConstants.API_URL,
+            port: AppConstants.API_PORT,
+            path: 'update',
+          ),
+          headers: {
+            HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
+          },
+          body: jsonEncode({'data': user}));
+      final Map<String, dynamic> data =
+          jsonDecode(response.body) as Map<String, dynamic>;
+
+      return DefaultResponseModel<UserModel>(
+        message: data['message'] as String,
+        responseIsTrue: data['result'] as bool,
+        data: data['data'] as UserModel,
+      );
     } catch (e) {
-      return DefaultResponseModel<void>(
+      return DefaultResponseModel<UserModel>(
           responseIsTrue: false, message: 'Bir hata oluştu! URR : $e}');
     }
   }

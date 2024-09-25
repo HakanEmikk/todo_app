@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:http/http.dart' as http;
 
 import '../../../models/default_response_model.dart';
 import '../../../models/user_model.dart';
@@ -64,8 +63,6 @@ class RegisterController extends GetxController {
       Get.showSnackbar(GetSnackBar(
         message: response.message,
       ));
-
-      print(user.mail);
     }
   }
 }

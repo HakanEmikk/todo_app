@@ -4,7 +4,7 @@ import 'package:todo_app/views/login/login_page.dart';
 import 'package:get/get.dart';
 import 'package:todo_app/views/register/register_page.dart';
 
-import 'views/task/task_page.dart';
+import 'views/profil/profil_info_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -44,6 +44,6 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
-    return HomePage();
+    return const ProfilInfoPage();
   }
 }

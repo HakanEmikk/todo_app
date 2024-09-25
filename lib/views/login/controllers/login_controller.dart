@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:todo_app/models/user_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../models/default_response_model.dart';
-import '../../../models/task_model.dart';
+import '../../../models/user_model.dart';
 import '../../../repositories/user_repository.dart';
 
 class LoginController extends GetxController {
   TextEditingController nickController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   final loginFormKey = GlobalKey<FormState>();
+  UserModel user = UserModel();
 
   String? userNameValidator(String? value) {
     if (value == null || value.length <= 8) {
@@ -26,8 +27,6 @@ class LoginController extends GetxController {
   }
 
   Future<void> loginOnPressed() async {
-    UserModel user = UserModel();
-
     user.nickname = nickController.text;
     user.password = passwordController.text;
     if (loginFormKey.currentState!.validate()) {
@@ -37,7 +36,10 @@ class LoginController extends GetxController {
           await UserRepository().login(user);
 
       user = response.data!;
-      print(user.name);
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+      await prefs.setString('key', user.key!);
+
       if (!response.responseIsTrue!) {
         Get.showSnackbar(GetSnackBar(message: response.message));
       }
