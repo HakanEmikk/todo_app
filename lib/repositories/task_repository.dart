@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:http/http.dart' as http;
 import '../abstracts/i_task_repository.dart';
@@ -8,11 +9,16 @@ import '../utils/constants.dart';
 
 class TaskRepository extends ITaskRepository {
   @override
-  // ignore: strict_raw_type, always_specify_types
-  Future<DefaultResponseModel> add(TaskModel task) async {
+  Future<DefaultResponseModel<void>> add(TaskModel task) async {
     try {
       final http.Response response =
-          await http.post(Uri(host: AppConstants.API_URL, path: 'tasks'));
+          await http.post(Uri(host: AppConstants.API_URL, path: 'tasks'),
+              headers: {
+                HttpHeaders.contentTypeHeader:
+                    'application/json; charset=UTF-8',
+              },
+              body: jsonEncode({'data': task}));
+
       return DefaultResponseModel<void>.fromJson(
           jsonDecode(response.body) as Map<String, dynamic>);
     } catch (e) {

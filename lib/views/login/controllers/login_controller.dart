@@ -9,7 +9,7 @@ import '../../../repositories/user_repository.dart';
 class LoginController extends GetxController {
   TextEditingController nickController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  final loginFormKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> loginFormKey = GlobalKey<FormState>();
   UserModel user = UserModel();
 
   String? userNameValidator(String? value) {
@@ -42,6 +42,8 @@ class LoginController extends GetxController {
 
       if (!response.responseIsTrue!) {
         Get.showSnackbar(GetSnackBar(message: response.message));
+      } else {
+        Get.toNamed<void>('/task_page');
       }
     }
   }

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:http/http.dart';
 
 import '../login/controllers/login_controller.dart';
+import 'controller/profile_controller.dart';
 
 class ProfilInfoPage extends StatefulWidget {
   const ProfilInfoPage({super.key});
@@ -12,29 +12,62 @@ class ProfilInfoPage extends StatefulWidget {
 }
 
 class _ProfilInfoPageState extends State<ProfilInfoPage> {
-  @override
   LoginController controller = Get.put(LoginController());
+  ProfileController profileController = Get.put(ProfileController());
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.blue,
         centerTitle: true,
-        title: Text(
+        title: const Text(
           'Profil',
+          style: TextStyle(fontSize: 50),
         ),
       ),
-      body: Container(
-        padding: EdgeInsets.all(400),
+      body: Center(
         child: Column(
-          children: [
+          children: <Widget>[
+            const SizedBox(
+              height: 100,
+            ),
+            Card(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                    'ad soyad: ${controller.user.name}  ${controller.user.surname}'),
+              ),
+            ),
+            const SizedBox(
+              height: 75,
+            ),
+            Card(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  'mail: ${controller.user.mail}',
+                ),
+              ),
+            ),
+            const SizedBox(
+              height: 75,
+            ),
+            Card(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text('kullanıcı adı: ${controller.user.nickname}'),
+              ),
+            ),
+            const SizedBox(
+              height: 75,
+            ),
             Container(
-              padding:
-                  EdgeInsets.only(right: 20, left: 20, top: 10, bottom: 10),
+              width: 200,
               decoration: BoxDecoration(
-                  border: Border.all(color: Colors.black, width: 3)),
-              child: Text(
-                'hakan',
-                style: TextStyle(),
+                  color: Colors.blue, borderRadius: BorderRadius.circular(10)),
+              child: TextButton(
+                onPressed: profileController.profileInfoUpdateOnPressed,
+                child: const Text('güncelleme',
+                    style: TextStyle(color: Colors.white)),
               ),
             )
           ],

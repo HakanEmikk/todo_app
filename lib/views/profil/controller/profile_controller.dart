@@ -5,14 +5,14 @@ import '../../../models/default_response_model.dart';
 import '../../../models/user_model.dart';
 import '../../../repositories/user_repository.dart';
 
-class RegisterController extends GetxController {
+class ProfileController extends GetxController {
   TextEditingController nameController = TextEditingController();
   TextEditingController surnameController = TextEditingController();
   TextEditingController nicknameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController mailController = TextEditingController();
-  final UserModel user = UserModel();
-  final GlobalKey<FormState> registerFormKey = GlobalKey<FormState>();
+
+  final GlobalKey<FormState> updateFormKey = GlobalKey<FormState>();
   String? nameValidator(String? value) {
     if (value == null || value.isEmpty) {
       return 'isim  boş olamaz';
@@ -48,21 +48,26 @@ class RegisterController extends GetxController {
     return null;
   }
 
-  Future<void> registerOnPressed() async {
-    if (registerFormKey.currentState!.validate()) {
-      registerFormKey.currentState!.save();
+  void updateOnPressed() async {
+    if (updateFormKey.currentState!.validate()) {
+      updateFormKey.currentState!.save();
 
+      final UserModel user = UserModel();
       user.mail = mailController.text;
       user.name = nameController.text;
       user.nickname = nicknameController.text;
       user.password = passwordController.text;
       user.surname = surnameController.text;
       final DefaultResponseModel<void> response =
-          await UserRepository().register(user);
+          await UserRepository().update(user);
 
       Get.showSnackbar(GetSnackBar(
         message: response.message,
       ));
     }
+  }
+
+  void profileInfoUpdateOnPressed() {
+    Get.toNamed<void>('/profil_update');
   }
 }
