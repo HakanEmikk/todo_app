@@ -1,6 +1,6 @@
 class TaskModel {
   TaskModel({
-    this.explanation,
+    this.explation,
     this.category,
     this.date,
     this.status,
@@ -8,20 +8,20 @@ class TaskModel {
   });
 
   TaskModel.fromJson(Map<String, dynamic> json) {
-    explanation = json['explanation'] as String;
+    explation = json['explation'] as String;
     category = json['category'] as String;
-    date = json['date'] as DateTime?;
-    status = json['status'] as bool?;
+    date = json['date'] as String?;
+    status = json['status'] as String?;
     userId = json['user_id'] as int?;
   }
-  String? explanation;
+  String? explation;
   String? category;
-  DateTime? date;
-  bool? status;
+  String? date;
+  String? status;
   int? userId;
   Map<String, dynamic> toJson() {
     return {
-      'explation': explanation,
+      'explation': explation,
       'category': category,
       'date': date,
       'status': status,

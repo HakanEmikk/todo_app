@@ -1,16 +1,13 @@
 class DefaultResponseModel<T> {
-  DefaultResponseModel({
-    required this.responseIsTrue,
-    required this.message,
-    this.data,
-  });
+  DefaultResponseModel({required this.message, this.data, this.token});
 
   DefaultResponseModel.fromJson(Map<String, dynamic> json) {
-    responseIsTrue = json['result'] as bool;
     message = json['message'] as String;
     data = json['data'] as T;
+    token = json['token'] as String;
   }
-  bool? responseIsTrue;
+
   String? message;
   T? data;
+  String? token;
 }

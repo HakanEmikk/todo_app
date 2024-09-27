@@ -11,7 +11,7 @@ class RegisterController extends GetxController {
   TextEditingController nicknameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController mailController = TextEditingController();
-  final UserModel user = UserModel();
+
   final GlobalKey<FormState> registerFormKey = GlobalKey<FormState>();
   String? nameValidator(String? value) {
     if (value == null || value.isEmpty) {
@@ -51,12 +51,13 @@ class RegisterController extends GetxController {
   Future<void> registerOnPressed() async {
     if (registerFormKey.currentState!.validate()) {
       registerFormKey.currentState!.save();
-
+      final UserModel user = UserModel();
       user.mail = mailController.text;
       user.name = nameController.text;
       user.nickname = nicknameController.text;
       user.password = passwordController.text;
       user.surname = surnameController.text;
+
       final DefaultResponseModel<void> response =
           await UserRepository().register(user);
 

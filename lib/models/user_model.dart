@@ -20,7 +20,7 @@ class UserModel {
     password = json['password'] as String?;
     mail = json['mail'] as String?;
     key = json['key'] as String?;
-    createdDate = json['created_date'] as DateTime?;
+    createdDate = json['created_date'] as String?;
   }
 
   int? id;
@@ -29,7 +29,7 @@ class UserModel {
   String? nickname;
   String? password;
   String? mail;
-  DateTime? createdDate;
+  String? createdDate;
   String? key;
 
   Map<String, dynamic> toJson() {

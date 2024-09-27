@@ -36,15 +36,9 @@ class LoginController extends GetxController {
           await UserRepository().login(user);
 
       user = response.data!;
-      final SharedPreferences prefs = await SharedPreferences.getInstance();
-
-      await prefs.setString('key', user.key!);
-
-      if (!response.responseIsTrue!) {
-        Get.showSnackbar(GetSnackBar(message: response.message));
-      } else {
-        Get.toNamed<void>('/task_page');
-      }
+      user.key = response.token!;
+      print('hhhhhh${user.toJson()}');
+      Get.toNamed<void>('/task_page');
     }
   }
 }

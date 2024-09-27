@@ -29,14 +29,12 @@ class UserRepository extends IUserRepository {
 
       return DefaultResponseModel<UserModel>(
         message: data['message'] as String,
-        responseIsTrue: data['result'] as bool,
-        data: data['data'] as UserModel,
+        token: data['token'] as String,
+        data: UserModel.fromJson(data['data'] as Map<String, dynamic>),
       );
     } catch (e) {
       return DefaultResponseModel<UserModel>(
-          responseIsTrue: false,
-          message: 'Bir hata oluştu! URR : $e}',
-          data: user);
+          message: 'Bir hata oluştu! URR : $e}', data: user);
     }
   }
 
@@ -49,7 +47,7 @@ class UserRepository extends IUserRepository {
               scheme: 'http',
               host: AppConstants.API_URL,
               port: AppConstants.API_PORT,
-              path: 'users'),
+              path: 'register'),
           headers: {
             HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
           },
@@ -59,23 +57,23 @@ class UserRepository extends IUserRepository {
           jsonDecode(response.body) as Map<String, dynamic>);
     } catch (e) {
       print(e.toString());
-      return DefaultResponseModel<void>(
-          responseIsTrue: false, message: 'Bir hata oluştu! URR : $e}');
+      return DefaultResponseModel<void>(message: 'Bir hata oluştu! URR : $e}');
     }
   }
 
   @override
   Future<DefaultResponseModel<UserModel>> update(UserModel user) async {
     try {
-      final http.Response response = await http.post(
+      final http.Response response = await http.put(
           Uri(
             scheme: 'http',
             host: AppConstants.API_URL,
             port: AppConstants.API_PORT,
-            path: 'update',
+            path: 'users/${user.id}',
           ),
           headers: {
             HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
+            HttpHeaders.authorizationHeader: 'Bearer ${user.key!}',
           },
           body: jsonEncode({'data': user}));
       final Map<String, dynamic> data =
@@ -83,12 +81,11 @@ class UserRepository extends IUserRepository {
 
       return DefaultResponseModel<UserModel>(
         message: data['message'] as String,
-        responseIsTrue: data['result'] as bool,
-        data: data['data'] as UserModel,
+        data: UserModel.fromJson(data['datalist'] as Map<String, dynamic>),
       );
     } catch (e) {
       return DefaultResponseModel<UserModel>(
-          responseIsTrue: false, message: 'Bir hata oluştu! URR : $e}');
+          message: 'Bir hata oluştu! URR : $e}');
     }
   }
 }

@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:todo_app/views/register/register_page.dart';
 
 import 'views/home/home_page.dart';
+import 'views/profil/profil_info_page.dart';
 import 'views/profil/profil_update_page.dart';
 import 'views/task/task_add_page.dart';
 import 'views/task/task_page.dart';
@@ -40,7 +41,12 @@ class MyApp extends StatelessWidget {
         GetPage(
           name: '/task_add_page',
           page: () => TaskAddPage(),
-        )
+        ),
+        GetPage(name: '/profil_info_page', page: () => ProfilInfoPage()),
+        GetPage(
+          name: '/profil_update_page',
+          page: () => ProfilUpdatePage(),
+        ),
       ],
       title: 'Flutter Demo',
       theme: ThemeData(

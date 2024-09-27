@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import '../../../models/default_response_model.dart';
 import '../../../models/user_model.dart';
 import '../../../repositories/user_repository.dart';
+import '../../login/controllers/login_controller.dart';
 
 class ProfileController extends GetxController {
   TextEditingController nameController = TextEditingController();
@@ -11,6 +12,7 @@ class ProfileController extends GetxController {
   TextEditingController nicknameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController mailController = TextEditingController();
+  LoginController controller = Get.put(LoginController());
 
   final GlobalKey<FormState> updateFormKey = GlobalKey<FormState>();
   String? nameValidator(String? value) {
@@ -51,15 +53,14 @@ class ProfileController extends GetxController {
   void updateOnPressed() async {
     if (updateFormKey.currentState!.validate()) {
       updateFormKey.currentState!.save();
-
-      final UserModel user = UserModel();
-      user.mail = mailController.text;
-      user.name = nameController.text;
-      user.nickname = nicknameController.text;
-      user.password = passwordController.text;
-      user.surname = surnameController.text;
+      print(controller.user.id);
+      controller.user.mail = mailController.text;
+      controller.user.name = nameController.text;
+      controller.user.nickname = nicknameController.text;
+      controller.user.password = passwordController.text;
+      controller.user.surname = surnameController.text;
       final DefaultResponseModel<void> response =
-          await UserRepository().update(user);
+          await UserRepository().update(controller.user);
 
       Get.showSnackbar(GetSnackBar(
         message: response.message,
@@ -68,6 +69,6 @@ class ProfileController extends GetxController {
   }
 
   void profileInfoUpdateOnPressed() {
-    Get.toNamed<void>('/profil_update');
+    Get.toNamed<void>('/profil_update_page');
   }
 }
