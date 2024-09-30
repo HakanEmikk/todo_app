@@ -4,7 +4,7 @@ class DefaultResponseModel<T> {
   DefaultResponseModel.fromJson(Map<String, dynamic> json) {
     message = json['message'] as String;
     data = json['data'] as T;
-    token = json['token'] as String;
+    token = json['token'] as String?;
   }
 
   String? message;

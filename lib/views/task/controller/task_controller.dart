@@ -8,20 +8,28 @@ import '../../../repositories/task_repository.dart';
 import '../../login/controllers/login_controller.dart';
 
 class TaskController extends GetxController {
-  RxBool isLoading = true.obs;
-  List<TaskModel> taskList = <TaskModel>[];
+  RxBool isLoading = false.obs;
+
+  int? index;
+  RxList<TaskModel> taskList = <TaskModel>[].obs;
   TaskModel task = TaskModel();
   TextEditingController explanationController = TextEditingController();
   TextEditingController categoryController = TextEditingController();
   GlobalKey<FormState> formKey = GlobalKey();
+  GlobalKey<FormState> formKeyUpdate = GlobalKey();
   LoginController loginController = Get.put(LoginController());
   Future<void> fetchTaskList() async {
+    isLoading.value = true;
     final DefaultResponseModel<List<TaskModel>> response =
         await TaskRepository().listing();
 
-    taskList = response.data!;
+    if (response.data != null && response.data!.isNotEmpty) {
+      taskList = response.data!.obs;
+    } else {
+      taskList = <RxList<TaskModel>>[].obs as RxList<TaskModel>;
+    }
 
-    isLoading = false.obs;
+    isLoading.value = false;
   }
 
   void taskAddOnPressed() {
@@ -37,9 +45,11 @@ class TaskController extends GetxController {
       task.category = categoryController.text;
       task.explation = explanationController.text;
       task.status = 'false';
+      task.fileId = 1;
 
       final DefaultResponseModel<void> response =
           await TaskRepository().add(task);
+      fetchTaskList();
       Get.showSnackbar(GetSnackBar(
         message: response.message,
       ));
@@ -48,5 +58,35 @@ class TaskController extends GetxController {
 
   void profileUpdateOnPressed() {
     Get.toNamed<void>('/profil_info_page');
+  }
+
+  void taskUpdateOnPressed() async {
+    if (formKeyUpdate.currentState!.validate()) {
+      formKeyUpdate.currentState!.save();
+
+      taskList[index!].category = categoryController.text;
+      taskList[index!].explation = explanationController.text;
+
+      final DefaultResponseModel<void> response =
+          await TaskRepository().update(taskList[index!]);
+      fetchTaskList();
+    }
+  }
+
+  void checkOnPressed(bool? value) {
+    print(taskList[index!].status);
+    taskList[index!].status = value.toString();
+    print(taskList[index!].status);
+  }
+
+  void updatePageNavigator(int updateIndex) {
+    index = updateIndex;
+    Get.toNamed<void>('/task_update_page');
+  }
+
+  void taskDeleteOnPressed(int index) async {
+    final DefaultResponseModel<void> response =
+        await TaskRepository().delete(taskList[index]);
+    taskList.removeAt(index);
   }
 }

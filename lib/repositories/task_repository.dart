@@ -36,8 +36,17 @@ class TaskRepository extends ITaskRepository {
   // ignore: strict_raw_type, always_specify_types
   Future<DefaultResponseModel> delete(TaskModel task) async {
     try {
-      final http.Response response =
-          await http.delete(Uri(host: AppConstants.API_URL, path: 'tasks'));
+      final http.Response response = await http.delete(
+          Uri(
+            host: AppConstants.API_URL,
+            port: AppConstants.API_PORT,
+            path: 'tasks/${task.id}',
+          ),
+          headers: {
+            HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
+            HttpHeaders.authorizationHeader: 'Bearer ${controller.user.key!}',
+          },
+          body: jsonEncode({'data': task}));
       return DefaultResponseModel<void>.fromJson(
           jsonDecode(response.body) as Map<String, dynamic>);
     } catch (e) {
@@ -86,8 +95,17 @@ class TaskRepository extends ITaskRepository {
   // ignore: strict_raw_type, always_specify_types
   Future<DefaultResponseModel> update(TaskModel task) async {
     try {
-      final http.Response response =
-          await http.put(Uri(host: AppConstants.API_URL, path: 'tasks'));
+      final http.Response response = await http.put(
+          Uri(
+            host: AppConstants.API_URL,
+            port: AppConstants.API_PORT,
+            path: 'tasks/${task.id}',
+          ),
+          headers: {
+            HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
+            HttpHeaders.authorizationHeader: 'Bearer ${controller.user.key!}',
+          },
+          body: jsonEncode({'data': task}));
       return DefaultResponseModel<void>.fromJson(
           jsonDecode(response.body) as Map<String, dynamic>);
     } catch (e) {

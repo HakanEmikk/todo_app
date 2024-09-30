@@ -8,6 +8,7 @@ import 'views/profil/profil_info_page.dart';
 import 'views/profil/profil_update_page.dart';
 import 'views/task/task_add_page.dart';
 import 'views/task/task_page.dart';
+import 'views/task/task_update_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -47,6 +48,7 @@ class MyApp extends StatelessWidget {
           name: '/profil_update_page',
           page: () => ProfilUpdatePage(),
         ),
+        GetPage(name: '/task_update_page', page: () => TaskUpdatePage()),
       ],
       title: 'Flutter Demo',
       theme: ThemeData(

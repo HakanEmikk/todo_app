@@ -12,12 +12,14 @@ class TaskPage extends StatefulWidget {
 
 class _TaskPageState extends State<TaskPage> {
   final TaskController controller = Get.put(TaskController());
+  bool? result;
+  bool? isChecked;
+  bool? listTileIsChecked;
   @override
   void initState() {
+    // TODO: implement initState
     super.initState();
-    setState(() {
-      controller.fetchTaskList();
-    });
+    controller.fetchTaskList();
   }
 
   @override
@@ -30,21 +32,41 @@ class _TaskPageState extends State<TaskPage> {
             onPressed: controller.profileUpdateOnPressed,
             icon: Icon(Icons.person)),
       ),
-      body: controller.isLoading.value
-          ? Center(child: CircularProgressIndicator())
+      body: Obx(() => controller.isLoading.value
+          ? const Center(child: CircularProgressIndicator())
           : Center(
               child: ListView.builder(
                   itemCount: controller.taskList.length,
                   itemBuilder: (BuildContext context, int index) {
-                    return ListTile(
-                      // splashColor: controller.taskList[index].status!
-                      //     ? Colors.green
-                      //     : Colors.red,
-                      title: Text(controller.taskList[index].explation!),
-                      subtitle: Text(controller.taskList[index].category!),
+                    result =
+                        (controller.taskList[index].status!.toLowerCase() ==
+                            'true');
+
+                    return Center(
+                      child: ListTile(
+                        tileColor: result! ? Colors.green : Colors.red,
+                        title: Text(
+                          ' Açıklama: ${controller.taskList[index].explation!}',
+                          textAlign: TextAlign.center,
+                        ),
+                        subtitle: Text(
+                          'katagori: ${controller.taskList[index].category!}',
+                          textAlign: TextAlign.center,
+                        ),
+                        trailing: TextButton(
+                          onPressed: () =>
+                              controller.updatePageNavigator(index),
+                          child: const Text('Güncelle',
+                              style: TextStyle(color: Colors.white)),
+                        ),
+                        leading: IconButton(
+                            onPressed: () =>
+                                controller.taskDeleteOnPressed(index),
+                            icon: const Icon(Icons.clear)),
+                      ),
                     );
                   }),
-            ),
+            )),
       floatingActionButton: FloatingActionButton(
         onPressed: controller.taskAddOnPressed,
         child: Icon(Icons.add),
