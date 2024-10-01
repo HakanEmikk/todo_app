@@ -71,9 +71,13 @@ class _RegisterPageState extends State<RegisterPage> {
               const SizedBox(
                 height: 50,
               ),
-              MyButton(
-                onPressed: controller.registerOnPressed,
-                message: 'kayıt ol',
+              SizedBox(
+                width: 120,
+                height: 50,
+                child: MyButton(
+                  onPressed: controller.registerOnPressed,
+                  message: 'kayıt ol',
+                ),
               ),
             ],
           ),

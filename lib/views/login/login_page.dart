@@ -44,8 +44,12 @@ class _LoginPageState extends State<LoginPage> {
               const SizedBox(
                 height: 50,
               ),
-              MyButton(
-                  onPressed: controller.loginOnPressed, message: 'Giriş Yap'),
+              SizedBox(
+                width: 120,
+                height: 50,
+                child: MyButton(
+                    onPressed: controller.loginOnPressed, message: 'Giriş Yap'),
+              ),
             ],
           ),
         ),

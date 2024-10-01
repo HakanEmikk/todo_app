@@ -53,11 +53,26 @@ class _TaskPageState extends State<TaskPage> {
                           'katagori: ${controller.taskList[index].category!}',
                           textAlign: TextAlign.center,
                         ),
-                        trailing: TextButton(
-                          onPressed: () =>
-                              controller.updatePageNavigator(index),
-                          child: const Text('Güncelle',
-                              style: TextStyle(color: Colors.white)),
+                        trailing: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            TextButton(
+                              onPressed: controller.pickMultipleFiles,
+                              child: const Text(
+                                'Dosya ekle',
+                                style: TextStyle(color: Colors.white),
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            TextButton(
+                              onPressed: () =>
+                                  controller.updatePageNavigator(index),
+                              child: const Text('Güncelle',
+                                  style: TextStyle(color: Colors.white)),
+                            ),
+                          ],
                         ),
                         leading: IconButton(
                             onPressed: () =>

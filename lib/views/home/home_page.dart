@@ -16,12 +16,21 @@ class HomePage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            MyButton(onPressed: controller.onLoginPressed, message: 'login'),
+            SizedBox(
+              width: 120,
+              height: 50,
+              child: MyButton(
+                  onPressed: controller.onLoginPressed, message: 'Giriş Yap'),
+            ),
             const SizedBox(
               height: 100,
             ),
-            MyButton(
-                onPressed: controller.onRegisterPressed, message: 'register')
+            SizedBox(
+              width: 120,
+              height: 50,
+              child: MyButton(
+                  onPressed: controller.onRegisterPressed, message: 'Kayıt Ol'),
+            )
           ],
         ),
       ),

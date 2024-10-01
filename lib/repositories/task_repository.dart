@@ -28,7 +28,7 @@ class TaskRepository extends ITaskRepository {
       return DefaultResponseModel<void>.fromJson(
           jsonDecode(response.body) as Map<String, dynamic>);
     } catch (e) {
-      return DefaultResponseModel<void>(message: 'Bir hata oluştu! URR : $e}');
+      return DefaultResponseModel<void>(message: 'Bir hata oluştu! URR : ${e}');
     }
   }
 
@@ -50,7 +50,7 @@ class TaskRepository extends ITaskRepository {
       return DefaultResponseModel<void>.fromJson(
           jsonDecode(response.body) as Map<String, dynamic>);
     } catch (e) {
-      return DefaultResponseModel<void>(message: 'Bir hata oluştu! URR : $e}');
+      return DefaultResponseModel<void>(message: 'Bir hata oluştu! URR : ${e}');
     }
   }
 
@@ -87,7 +87,7 @@ class TaskRepository extends ITaskRepository {
       );
     } catch (e) {
       return DefaultResponseModel<List<TaskModel>>(
-          message: 'Bir hata oluştu! TRR : $e}', data: <TaskModel>[]);
+          message: 'Bir hata oluştu! TRR : ${e}', data: <TaskModel>[]);
     }
   }
 
@@ -109,7 +109,7 @@ class TaskRepository extends ITaskRepository {
       return DefaultResponseModel<void>.fromJson(
           jsonDecode(response.body) as Map<String, dynamic>);
     } catch (e) {
-      return DefaultResponseModel<void>(message: 'Bir hata oluştu! URR : $e}');
+      return DefaultResponseModel<void>(message: 'Bir hata oluştu! URR : ${e}');
     }
   }
 }

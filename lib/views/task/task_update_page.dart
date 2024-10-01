@@ -52,7 +52,12 @@ class _TaskUpdatePageState extends State<TaskUpdatePage> {
                   const Text('Tamamlandı mı :'),
                   Checkbox(
                     value: result,
-                    onChanged: controller.checkOnPressed,
+                    onChanged: (bool? Value) {
+                      setState(() {
+                        controller.taskList[controller.index!].status =
+                            Value.toString();
+                      });
+                    },
                   ),
                 ],
               ),
