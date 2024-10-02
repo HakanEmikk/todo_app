@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:html' as html;
 import 'dart:io';
 import 'dart:typed_data';
@@ -23,6 +24,7 @@ class TaskController extends GetxController {
   var data;
   RxList<TaskModel> taskList = <TaskModel>[].obs;
   TaskModel task = TaskModel();
+  FileModel file = FileModel();
   TextEditingController explanationController = TextEditingController();
   TextEditingController categoryController = TextEditingController();
   GlobalKey<FormState> formKey = GlobalKey();
@@ -108,35 +110,52 @@ class TaskController extends GetxController {
     taskList.removeAt(index);
   }
 
-  Future<void> pickMultipleFiles() async {
+  Future<void> pickMultipleFiles(int index) async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
       allowMultiple: false,
       type: FileType.any,
     );
     if (result != null) {
-      final data = result.files.single.bytes;
-      final blob = html.Blob([data]);
+      final Uint8List? data = result.files.single.bytes;
+      final html.Blob blob = html.Blob(
+        [data],
+      );
       fileName = result.files.single.name;
       html.File([blob], fileName!);
     } else {
       print('Dosya seçilmedi');
     }
 
-    final reader = html.FileReader();
+    final html.FileReader reader = html.FileReader();
 
     reader.onLoadEnd.listen((event) async {
       if (reader.readyState == html.FileReader.DONE) {
-        final uri = Uri.parse(uri);
-        late http.MultipartRequest request;
-        request = http.MultipartRequest('POST', uri);
+        String task_id = taskList[index].id.toString();
+        try {
+          final Uri uri = Uri.parse("http://192.168.1.235:3000/files/$task_id");
+          late http.MultipartRequest request;
+          request = http.MultipartRequest('POST', uri);
+
+          final Uint8List byteData = reader.result! as Uint8List;
+          http.MultipartFile multipartFile = http.MultipartFile.fromBytes(
+            'files',
+            byteData,
+            filename: fileName,
+            contentType: MediaType('application', 'octet-stream'),
+          );
+          file.fileName = fileName;
+          file.taskId = taskList[index].id;
+          request.fields['data'] = jsonEncode(file);
+          request.files.add(multipartFile);
+          request.headers.addAll(<String, String>{
+            HttpHeaders.authorizationHeader:
+                'Bearer ${loginController.user.key}',
+          });
+          request.send();
+        } catch (e) {
+          print('hataa$e');
+        }
       }
-      final Uint8List byteData = reader.result! as Uint8List;
-      var multipartFile = http.MultipartFile.fromBytes(
-        'file',
-        byteData,
-        filename: fileName,
-        contentType: MediaType('application', 'octet-stream'),
-      );
     });
   }
 }

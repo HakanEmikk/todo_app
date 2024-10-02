@@ -14,6 +14,8 @@ class ProfilInfoPage extends StatefulWidget {
 class _ProfilInfoPageState extends State<ProfilInfoPage> {
   LoginController controller = Get.put(LoginController());
   ProfileController profileController = Get.put(ProfileController());
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -34,7 +36,7 @@ class _ProfilInfoPageState extends State<ProfilInfoPage> {
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
-                    'ad soyad: ${controller.user.name}  ${controller.user.surname}'),
+                    'ad soyad: ${controller.user.name} ${controller.user.surname}'),
               ),
             ),
             const SizedBox(

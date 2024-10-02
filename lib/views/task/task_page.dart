@@ -57,7 +57,8 @@ class _TaskPageState extends State<TaskPage> {
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             TextButton(
-                              onPressed: controller.pickMultipleFiles,
+                              onPressed: () =>
+                                  controller.pickMultipleFiles(index),
                               child: const Text(
                                 'Dosya ekle',
                                 style: TextStyle(color: Colors.white),

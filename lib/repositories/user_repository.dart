@@ -81,6 +81,7 @@ class UserRepository extends IUserRepository {
 
       return DefaultResponseModel<UserModel>(
         message: data['message'] as String,
+        token: data['token'] as String,
         data: UserModel.fromJson(data['datalist'] as Map<String, dynamic>),
       );
     } catch (e) {

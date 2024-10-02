@@ -19,6 +19,14 @@ class _ProfilUpdatePageState extends State<ProfilUpdatePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.blue,
+        centerTitle: true,
+        title: const Text(
+          'Profil Güncelle',
+          style: TextStyle(fontSize: 50),
+        ),
+      ),
       body: Padding(
         padding: const EdgeInsets.only(left: 500, right: 500),
         child: Form(
