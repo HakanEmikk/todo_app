@@ -63,7 +63,7 @@ class ProfileController extends GetxController {
       final DefaultResponseModel<UserModel> response =
           await UserRepository().update(controller.user);
       controller.user = response.data!;
-
+      Get.back();
       Get.showSnackbar(GetSnackBar(
         message: response.message,
       ));

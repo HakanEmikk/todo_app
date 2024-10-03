@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../models/category_model.dart';
 import '../../widgets/my_text_form_field.dart';
 import 'controller/task_controller.dart';
 
@@ -13,6 +14,7 @@ class TaskAddPage extends StatefulWidget {
 
 class _TaskAddPageState extends State<TaskAddPage> {
   TaskController controller = Get.put(TaskController());
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,10 +35,29 @@ class _TaskAddPageState extends State<TaskAddPage> {
               const SizedBox(
                 height: 100,
               ),
-              MyTextFormField(
-                label: 'katagori',
-                obscureText: false,
-                controller: controller.categoryController,
+              Row(
+                children: <Widget>[
+                  Obx(() => DropdownButton<String>(
+                        hint: Text('Kategori seçin'),
+                        value: controller.selectedCategory, // Seçilen kategori
+                        items: controller.categoryList
+                            .map((CategoryModel category) {
+                          return DropdownMenuItem<String>(
+                            value: category.id.toString(),
+                            child: Text(category
+                                .catergoryName!), // Düzeltme: categoryName
+                          );
+                        }).toList(),
+                        onChanged: (newValue) {
+                          controller.selectedCategory =
+                              newValue; // Seçilen kategori güncelleniyor
+                        },
+                      )),
+                  TextButton(
+                    onPressed: controller.categoryAddOnPressed,
+                    child: Text('Katagori ekle'),
+                  )
+                ],
               ),
               const SizedBox(
                 height: 100,

@@ -61,7 +61,7 @@ class TaskRepository extends ITaskRepository {
         Uri(
             host: AppConstants.API_URL,
             port: AppConstants.API_PORT,
-            path: 'tasks'),
+            path: 'tasks/get/${controller.user.id}'),
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
           HttpHeaders.authorizationHeader: 'Bearer ${controller.user.key!}',
@@ -70,20 +70,21 @@ class TaskRepository extends ITaskRepository {
 
       final Map<String, dynamic> data =
           jsonDecode(response.body) as Map<String, dynamic>;
-      final Map<String, dynamic>? datalist =
-          data['datalist'] as Map<String, dynamic>?;
+      final List<dynamic>? datalist = data['datalist'] as List<dynamic>?;
       if (datalist == null) {
         throw Exception('Datalist is null');
       }
-      final List<dynamic>? dataList = datalist['data'] as List<dynamic>?;
-      if (dataList == null) {
-        throw Exception('Data list is null');
-      }
+
       return DefaultResponseModel<List<TaskModel>>(
         message: data['message'] as String,
-        data: dataList
-            .map((task) => TaskModel.fromJson(task as Map<String, dynamic>))
-            .toList(),
+        data: datalist.map((task) {
+          // `task` verilerinin her bir öğesi `Map<String, dynamic>` olmalı
+          if (task is Map<String, dynamic>) {
+            return TaskModel.fromJson(task);
+          } else {
+            throw Exception('Unexpected data format in task');
+          }
+        }).toList(),
       );
     } catch (e) {
       return DefaultResponseModel<List<TaskModel>>(

@@ -3,6 +3,7 @@ import 'package:todo_app/views/login/login_page.dart';
 import 'package:get/get.dart';
 import 'package:todo_app/views/register/register_page.dart';
 
+import 'category/category_add_page.dart';
 import 'views/home/home_page.dart';
 import 'views/profil/profil_info_page.dart';
 import 'views/profil/profil_update_page.dart';
@@ -49,6 +50,7 @@ class MyApp extends StatelessWidget {
           page: () => ProfilUpdatePage(),
         ),
         GetPage(name: '/task_update_page', page: () => TaskUpdatePage()),
+        GetPage(name: '/category_add_page', page: () => CategoryAddPage()),
       ],
       title: 'Flutter Demo',
       theme: ThemeData(

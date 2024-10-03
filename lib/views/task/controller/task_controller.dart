@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+
 import 'dart:html' as html;
 import 'dart:io';
 import 'dart:typed_data';
@@ -10,19 +11,29 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 
+import '../../../models/category_model.dart';
 import '../../../models/default_response_model.dart';
 import '../../../models/file_model.dart';
 import '../../../models/task_model.dart';
+import '../../../repositories/category_repository.dart';
 import '../../../repositories/task_repository.dart';
 import '../../login/controllers/login_controller.dart';
 
 class TaskController extends GetxController {
+  @override
+  onInit() {
+    super.onInit();
+
+    fetchCategoryList();
+  }
+
   RxBool isLoading = false.obs;
   RxList<FileModel> selectedFiles = <FileModel>[].obs;
   String? fileName;
   int? index;
   var data;
   RxList<TaskModel> taskList = <TaskModel>[].obs;
+  RxList<CategoryModel> categoryList = <CategoryModel>[].obs;
   TaskModel task = TaskModel();
   FileModel file = FileModel();
   TextEditingController explanationController = TextEditingController();
@@ -30,6 +41,7 @@ class TaskController extends GetxController {
   GlobalKey<FormState> formKey = GlobalKey();
   GlobalKey<FormState> formKeyUpdate = GlobalKey();
   LoginController loginController = Get.put(LoginController());
+  String? selectedCategory;
   Future<void> fetchTaskList() async {
     isLoading.value = true;
     final DefaultResponseModel<List<TaskModel>> response =
@@ -44,8 +56,19 @@ class TaskController extends GetxController {
     isLoading.value = false;
   }
 
+  Future<void> fetchCategoryList() async {
+    final DefaultResponseModel<List<CategoryModel>> response =
+        await CategoryRepository().get();
+
+    if (response.data != null && response.data!.isNotEmpty) {
+      categoryList = response.data!.obs;
+    } else {
+      categoryList = <RxList<CategoryModel>>[].obs as RxList<CategoryModel>;
+    }
+  }
+
   void taskAddOnPressed() {
-    Get.toNamed(
+    Get.toNamed<void>(
       '/task_add_page',
     );
   }
@@ -54,9 +77,10 @@ class TaskController extends GetxController {
     if (formKey.currentState!.validate()) {
       formKey.currentState!.save();
       task.userId = loginController.user.id;
-      task.category = categoryController.text;
+
       task.explation = explanationController.text;
       task.status = 'false';
+      task.categoryId = int.parse(selectedCategory!);
 
       final DefaultResponseModel<void> response =
           await TaskRepository().add(task);
@@ -79,12 +103,6 @@ class TaskController extends GetxController {
         taskList[index!].explation = taskList[index!].explation;
       } else {
         taskList[index!].explation = explanationController.text;
-      }
-
-      if (categoryController.text.isEmpty) {
-        taskList[index!].category = taskList[index!].category;
-      } else {
-        taskList[index!].category = categoryController.text;
       }
 
       final DefaultResponseModel<void> response =
@@ -157,5 +175,9 @@ class TaskController extends GetxController {
         }
       }
     });
+  }
+
+  void categoryAddOnPressed() {
+    Get.toNamed('/category_add_page');
   }
 }

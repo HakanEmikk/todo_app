@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../models/default_response_model.dart';
+import '../../repositories/task_repository.dart';
 import 'controller/task_controller.dart';
 
 class TaskPage extends StatefulWidget {
@@ -13,8 +15,10 @@ class TaskPage extends StatefulWidget {
 class _TaskPageState extends State<TaskPage> {
   final TaskController controller = Get.put(TaskController());
   bool? result;
+
   bool? isChecked;
   bool? listTileIsChecked;
+
   @override
   void initState() {
     // TODO: implement initState
@@ -50,12 +54,28 @@ class _TaskPageState extends State<TaskPage> {
                           textAlign: TextAlign.center,
                         ),
                         subtitle: Text(
-                          'katagori: ${controller.taskList[index].category!}',
+                          'katagori: ${controller.categoryList[index].catergoryName}',
                           textAlign: TextAlign.center,
                         ),
                         trailing: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
+                            const Text('Tamamlandı mı :'),
+                            Checkbox(
+                              value: controller.taskList[index].status!
+                                      .toLowerCase() ==
+                                  'true',
+                              onChanged: (bool? Value) async {
+                                setState(() {
+                                  controller.taskList[index].status =
+                                      Value.toString();
+                                });
+                                final DefaultResponseModel<void> response =
+                                    await TaskRepository()
+                                        .update(controller.taskList[index]);
+                                controller.fetchTaskList();
+                              },
+                            ),
                             TextButton(
                               onPressed: () =>
                                   controller.pickMultipleFiles(index),

@@ -60,7 +60,7 @@ class RegisterController extends GetxController {
 
       final DefaultResponseModel<void> response =
           await UserRepository().register(user);
-
+      Get.back();
       Get.showSnackbar(GetSnackBar(
         message: response.message,
       ));
