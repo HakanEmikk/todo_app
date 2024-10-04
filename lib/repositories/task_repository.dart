@@ -21,7 +21,8 @@ class TaskRepository extends ITaskRepository {
               path: 'tasks'),
           headers: {
             HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
-            HttpHeaders.authorizationHeader: 'Bearer ${controller.user.key!}',
+            HttpHeaders.authorizationHeader:
+                'Bearer ${controller.user.value.key!}',
           },
           body: jsonEncode({'data': task}));
 
@@ -44,7 +45,8 @@ class TaskRepository extends ITaskRepository {
           ),
           headers: {
             HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
-            HttpHeaders.authorizationHeader: 'Bearer ${controller.user.key!}',
+            HttpHeaders.authorizationHeader:
+                'Bearer ${controller.user.value.key!}',
           },
           body: jsonEncode({'data': task}));
       return DefaultResponseModel<void>.fromJson(
@@ -61,10 +63,11 @@ class TaskRepository extends ITaskRepository {
         Uri(
             host: AppConstants.API_URL,
             port: AppConstants.API_PORT,
-            path: 'tasks/get/${controller.user.id}'),
+            path: 'tasks/get/${controller.user.value.id}'),
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
-          HttpHeaders.authorizationHeader: 'Bearer ${controller.user.key!}',
+          HttpHeaders.authorizationHeader:
+              'Bearer ${controller.user.value.key!}',
         },
       );
 
@@ -88,7 +91,7 @@ class TaskRepository extends ITaskRepository {
       );
     } catch (e) {
       return DefaultResponseModel<List<TaskModel>>(
-          message: 'Bir hata oluştu! TRR : ${e}', data: <TaskModel>[]);
+          message: 'Bir hata oluştu! TRR : $e', data: <TaskModel>[]);
     }
   }
 
@@ -104,7 +107,8 @@ class TaskRepository extends ITaskRepository {
           ),
           headers: {
             HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
-            HttpHeaders.authorizationHeader: 'Bearer ${controller.user.key!}',
+            HttpHeaders.authorizationHeader:
+                'Bearer ${controller.user.value.key!}',
           },
           body: jsonEncode({'data': task}));
       return DefaultResponseModel<void>.fromJson(

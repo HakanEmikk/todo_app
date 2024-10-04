@@ -54,16 +54,17 @@ class ProfileController extends GetxController {
     if (updateFormKey.currentState!.validate()) {
       updateFormKey.currentState!.save();
 
-      print(controller.user.id);
-      controller.user.mail = mailController.text;
-      controller.user.name = nameController.text;
-      controller.user.nickname = nicknameController.text;
-      controller.user.password = passwordController.text;
-      controller.user.surname = surnameController.text;
-      final DefaultResponseModel<UserModel> response =
+      controller.user.update((user) {
+        user!.mail = mailController.text;
+        user.name = nameController.text;
+        user.nickname = nicknameController.text;
+        user.password = passwordController.text;
+        user.surname = surnameController.text;
+      });
+      final DefaultResponseModel<Rx<UserModel>> response =
           await UserRepository().update(controller.user);
-      controller.user = response.data!;
-      Get.back();
+      controller.user.value = response.data!.value;
+      Get.back<void>();
       Get.showSnackbar(GetSnackBar(
         message: response.message,
       ));

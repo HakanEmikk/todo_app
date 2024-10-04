@@ -51,16 +51,16 @@ class RegisterController extends GetxController {
   Future<void> registerOnPressed() async {
     if (registerFormKey.currentState!.validate()) {
       registerFormKey.currentState!.save();
-      final UserModel user = UserModel();
-      user.mail = mailController.text;
-      user.name = nameController.text;
-      user.nickname = nicknameController.text;
-      user.password = passwordController.text;
-      user.surname = surnameController.text;
+      final Rx<UserModel> user = UserModel().obs;
+      user.value.mail = mailController.text;
+      user.value.name = nameController.text;
+      user.value.nickname = nicknameController.text;
+      user.value.password = passwordController.text;
+      user.value.surname = surnameController.text;
 
       final DefaultResponseModel<void> response =
           await UserRepository().register(user);
-      Get.back();
+      Get.back<void>();
       Get.showSnackbar(GetSnackBar(
         message: response.message,
       ));

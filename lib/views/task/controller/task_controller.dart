@@ -20,13 +20,6 @@ import '../../../repositories/task_repository.dart';
 import '../../login/controllers/login_controller.dart';
 
 class TaskController extends GetxController {
-  @override
-  onInit() {
-    super.onInit();
-
-    fetchCategoryList();
-  }
-
   RxBool isLoading = false.obs;
   RxList<FileModel> selectedFiles = <FileModel>[].obs;
   String? fileName;
@@ -41,7 +34,13 @@ class TaskController extends GetxController {
   GlobalKey<FormState> formKey = GlobalKey();
   GlobalKey<FormState> formKeyUpdate = GlobalKey();
   LoginController loginController = Get.put(LoginController());
-  String? selectedCategory;
+  RxString? selectedCategory = ''.obs;
+  onInit() {
+    super.onInit();
+
+    fetchCategoryList();
+  }
+
   Future<void> fetchTaskList() async {
     isLoading.value = true;
     final DefaultResponseModel<List<TaskModel>> response =
@@ -61,9 +60,10 @@ class TaskController extends GetxController {
         await CategoryRepository().get();
 
     if (response.data != null && response.data!.isNotEmpty) {
-      categoryList = response.data!.obs;
+      categoryList.value = response.data!;
     } else {
-      categoryList = <RxList<CategoryModel>>[].obs as RxList<CategoryModel>;
+      categoryList.value =
+          <RxList<CategoryModel>>[].obs as RxList<CategoryModel>;
     }
   }
 
@@ -76,15 +76,16 @@ class TaskController extends GetxController {
   Future<void> addOnPressed() async {
     if (formKey.currentState!.validate()) {
       formKey.currentState!.save();
-      task.userId = loginController.user.id;
+      task.userId = loginController.user.value.id;
 
       task.explation = explanationController.text;
       task.status = 'false';
-      task.categoryId = int.parse(selectedCategory!);
+      task.categoryId = int.parse(selectedCategory!.value!);
 
       final DefaultResponseModel<void> response =
           await TaskRepository().add(task);
       fetchTaskList();
+      Get.back<void>();
       Get.showSnackbar(GetSnackBar(
         message: response.message,
       ));
@@ -104,10 +105,12 @@ class TaskController extends GetxController {
       } else {
         taskList[index!].explation = explanationController.text;
       }
+      taskList[index!].categoryId = int.parse(selectedCategory!.value);
 
       final DefaultResponseModel<void> response =
           await TaskRepository().update(taskList[index!]);
       fetchTaskList();
+      Get.back<void>();
     }
   }
 
@@ -167,7 +170,7 @@ class TaskController extends GetxController {
           request.files.add(multipartFile);
           request.headers.addAll(<String, String>{
             HttpHeaders.authorizationHeader:
-                'Bearer ${loginController.user.key}',
+                'Bearer ${loginController.user.value.key}',
           });
           request.send();
         } catch (e) {
@@ -178,6 +181,6 @@ class TaskController extends GetxController {
   }
 
   void categoryAddOnPressed() {
-    Get.toNamed('/category_add_page');
+    Get.toNamed<void>('/category_add_page');
   }
 }

@@ -9,7 +9,6 @@ import '../models/category_model.dart';
 import '../models/default_response_model.dart';
 import '../utils/constants.dart';
 import '../views/login/controllers/login_controller.dart';
-import '../views/task/controller/task_controller.dart';
 
 class CategoryRepository extends ICategoryRepository {
   LoginController controller = Get.put(LoginController());
@@ -24,7 +23,8 @@ class CategoryRepository extends ICategoryRepository {
               path: 'category'),
           headers: {
             HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
-            HttpHeaders.authorizationHeader: 'Bearer ${controller.user.key!}',
+            HttpHeaders.authorizationHeader:
+                'Bearer ${controller.user.value.key!}',
           },
           body: jsonEncode({'data': category}));
 
@@ -45,7 +45,8 @@ class CategoryRepository extends ICategoryRepository {
             path: 'category'),
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
-          HttpHeaders.authorizationHeader: 'Bearer ${controller.user.key!}',
+          HttpHeaders.authorizationHeader:
+              'Bearer ${controller.user.value.key!}',
         },
       );
 

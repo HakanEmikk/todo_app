@@ -9,7 +9,7 @@ class LoginController extends GetxController {
   TextEditingController nickController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   final GlobalKey<FormState> loginFormKey = GlobalKey<FormState>();
-  UserModel user = UserModel();
+  Rx<UserModel> user = UserModel().obs;
 
   String? userNameValidator(String? value) {
     if (value == null || value.length < 8) {
@@ -26,16 +26,16 @@ class LoginController extends GetxController {
   }
 
   Future<void> loginOnPressed() async {
-    user.nickname = nickController.text;
-    user.password = passwordController.text;
+    user.value.nickname = nickController.text;
+    user.value.password = passwordController.text;
     if (loginFormKey.currentState!.validate()) {
       loginFormKey.currentState!.save();
 
-      final DefaultResponseModel<UserModel> response =
-          await UserRepository().login(user);
+      final DefaultResponseModel<Rx<UserModel>> response =
+          await UserRepository().login(user.value.obs);
 
       user = response.data!;
-      user.key = response.token!;
+      user.value.key = response.token!;
       print('hhhhhh${user.toJson()}');
       Get.toNamed<void>('/task_page');
     }

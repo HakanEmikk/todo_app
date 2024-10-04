@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../models/category_model.dart';
 import '../../widgets/my_text_form_field.dart';
 import 'controller/task_controller.dart';
 
@@ -23,54 +24,66 @@ class _TaskUpdatePageState extends State<TaskUpdatePage> {
 
     return Scaffold(
       body: Padding(
-        padding: const EdgeInsets.only(left: 500, right: 500),
-        child: Form(
-          key: controller.formKeyUpdate,
-          child: Column(
-            children: <Widget>[
-              const SizedBox(
-                height: 200,
-              ),
-              MyTextFormField(
-                label: 'açıklama',
-                obscureText: false,
-                controller: controller.explanationController,
-              ),
-              const SizedBox(
-                height: 100,
-              ),
-              MyTextFormField(
-                label: 'katagori',
-                obscureText: false,
-                controller: controller.categoryController,
-              ),
-              SizedBox(
-                height: 100,
-              ),
-              Row(
-                children: [
-                  const Text('Tamamlandı mı :'),
-                  Checkbox(
-                    value: result,
-                    onChanged: (bool? Value) {
-                      setState(() {
-                        controller.taskList[controller.index!].status =
-                            Value.toString();
-                      });
+          padding: const EdgeInsets.only(left: 500, right: 500),
+          child: Form(
+            key: controller.formKeyUpdate,
+            child: Column(
+              children: <Widget>[
+                const SizedBox(
+                  height: 200,
+                ),
+                MyTextFormField(
+                  label: 'açıklama',
+                  obscureText: false,
+                  hintText: controller.taskList[controller.index!].explation,
+                  controller: controller.explanationController,
+                ),
+                const SizedBox(
+                  height: 100,
+                ),
+                Obx(
+                  () => DropdownButton<String>(
+                    hint: const Text('Kategori seçin'),
+                    value: controller.selectedCategory!.value.isNotEmpty
+                        ? controller.selectedCategory!.value
+                        : null, // Seçilen kategori
+                    items:
+                        controller.categoryList.map((CategoryModel category) {
+                      return DropdownMenuItem<String>(
+                        value: category.id.toString(),
+                        child: Text(
+                            category.catergoryName!), // Düzeltme: categoryName
+                      );
+                    }).toList(),
+                    onChanged: (newValue) {
+                      // Seçilen kategori güncelleniyor
+                      controller.selectedCategory!.value = newValue!;
                     },
                   ),
-                ],
-              ),
-              const SizedBox(
-                height: 100,
-              ),
-              TextButton(
-                  onPressed: () => controller.taskUpdateOnPressed(),
-                  child: const Text('Güncelle')),
-            ],
-          ),
-        ),
-      ),
+                ),
+                Row(
+                  children: [
+                    const Text('Tamamlandı mı :'),
+                    Checkbox(
+                      value: result,
+                      onChanged: (bool? Value) {
+                        setState(() {
+                          controller.taskList[controller.index!].status =
+                              Value.toString();
+                        });
+                      },
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 100,
+                ),
+                TextButton(
+                    onPressed: () => controller.taskUpdateOnPressed(),
+                    child: const Text('Güncelle')),
+              ],
+            ),
+          )),
     );
   }
 }

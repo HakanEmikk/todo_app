@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -21,9 +19,11 @@ class CategoryController extends GetxController {
       final DefaultResponseModel<void> response =
           await CategoryRepository().add(category);
       controller.fetchCategoryList();
+      Get.back<void>();
       Get.showSnackbar(GetSnackBar(
         message: response.message,
       ));
+      print('geridön');
     }
   }
 

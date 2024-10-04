@@ -38,7 +38,7 @@ class _ProfilUpdatePageState extends State<ProfilUpdatePage> {
               ),
               MyTextFormField(
                 label: 'Ad',
-                hintText: loginController.user.name,
+                hintText: loginController.user.value.name,
                 obscureText: false,
                 validator: controller.nameValidator,
                 controller: controller.nameController,
@@ -48,7 +48,7 @@ class _ProfilUpdatePageState extends State<ProfilUpdatePage> {
               ),
               MyTextFormField(
                 label: 'soyad',
-                hintText: loginController.user.surname,
+                hintText: loginController.user.value.surname,
                 obscureText: false,
                 validator: controller.surnameValidator,
                 controller: controller.surnameController,
@@ -58,7 +58,7 @@ class _ProfilUpdatePageState extends State<ProfilUpdatePage> {
               ),
               MyTextFormField(
                 label: 'kulanıcı adı',
-                hintText: loginController.user.nickname,
+                hintText: loginController.user.value.nickname,
                 obscureText: false,
                 validator: controller.nicknameValidator,
                 controller: controller.nicknameController,
@@ -77,7 +77,7 @@ class _ProfilUpdatePageState extends State<ProfilUpdatePage> {
               ),
               MyTextFormField(
                 label: 'Mail',
-                hintText: loginController.user.mail,
+                hintText: loginController.user.value.mail,
                 obscureText: false,
                 validator: controller.mailValidator,
                 controller: controller.mailController,

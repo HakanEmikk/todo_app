@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../models/category_model.dart';
 import '../../models/default_response_model.dart';
+import '../../models/task_model.dart';
 import '../../repositories/task_repository.dart';
 import 'controller/task_controller.dart';
 
@@ -45,7 +47,16 @@ class _TaskPageState extends State<TaskPage> {
                     result =
                         (controller.taskList[index].status!.toLowerCase() ==
                             'true');
-
+                    int id = controller.taskList[index].categoryId!;
+                    String name = controller.categoryList
+                        .firstWhere(
+                          (element) =>
+                              element.id ==
+                              id, // Kategori ID'sini kontrol ediyoruz
+                          orElse: () =>
+                              CategoryModel(id: 0, catergoryName: 'Bulunamadı'),
+                        )
+                        .catergoryName!; // Kategori adı yoksa varsayılan değer
                     return Center(
                       child: ListTile(
                         tileColor: result! ? Colors.green : Colors.red,
@@ -54,7 +65,7 @@ class _TaskPageState extends State<TaskPage> {
                           textAlign: TextAlign.center,
                         ),
                         subtitle: Text(
-                          'katagori: ${controller.categoryList[index].catergoryName}',
+                          'katagori: ${name}',
                           textAlign: TextAlign.center,
                         ),
                         trailing: Row(

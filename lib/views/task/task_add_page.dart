@@ -37,22 +37,26 @@ class _TaskAddPageState extends State<TaskAddPage> {
               ),
               Row(
                 children: <Widget>[
-                  Obx(() => DropdownButton<String>(
-                        hint: Text('Kategori seçin'),
-                        value: controller.selectedCategory, // Seçilen kategori
-                        items: controller.categoryList
-                            .map((CategoryModel category) {
-                          return DropdownMenuItem<String>(
-                            value: category.id.toString(),
-                            child: Text(category
-                                .catergoryName!), // Düzeltme: categoryName
-                          );
-                        }).toList(),
-                        onChanged: (newValue) {
-                          controller.selectedCategory =
-                              newValue; // Seçilen kategori güncelleniyor
-                        },
-                      )),
+                  Obx(
+                    () => DropdownButton<String>(
+                      hint: const Text('Kategori seçin'),
+                      value: controller.selectedCategory!.value.isNotEmpty
+                          ? controller.selectedCategory!.value
+                          : null, // Seçilen kategori
+                      items:
+                          controller.categoryList.map((CategoryModel category) {
+                        return DropdownMenuItem<String>(
+                          value: category.id.toString(),
+                          child: Text(category
+                              .catergoryName!), // Düzeltme: categoryName
+                        );
+                      }).toList(),
+                      onChanged: (newValue) {
+                        // Seçilen kategori güncelleniyor
+                        controller.selectedCategory!.value = newValue!;
+                      },
+                    ),
+                  ),
                   TextButton(
                     onPressed: controller.categoryAddOnPressed,
                     child: Text('Katagori ekle'),

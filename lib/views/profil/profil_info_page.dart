@@ -27,52 +27,56 @@ class _ProfilInfoPageState extends State<ProfilInfoPage> {
         ),
       ),
       body: Center(
-        child: Column(
-          children: <Widget>[
-            const SizedBox(
-              height: 100,
-            ),
-            Card(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                    'ad soyad: ${controller.user.name} ${controller.user.surname}'),
+        child: Obx(
+          () => Column(
+            children: <Widget>[
+              const SizedBox(
+                height: 100,
               ),
-            ),
-            const SizedBox(
-              height: 75,
-            ),
-            Card(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  'mail: ${controller.user.mail}',
+              Card(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                      'ad soyad: ${controller.user.value.name} ${controller.user.value.surname}'),
                 ),
               ),
-            ),
-            const SizedBox(
-              height: 75,
-            ),
-            Card(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text('kullanıcı adı: ${controller.user.nickname}'),
+              const SizedBox(
+                height: 75,
               ),
-            ),
-            const SizedBox(
-              height: 75,
-            ),
-            Container(
-              width: 200,
-              decoration: BoxDecoration(
-                  color: Colors.blue, borderRadius: BorderRadius.circular(10)),
-              child: TextButton(
-                onPressed: profileController.profileInfoUpdateOnPressed,
-                child: const Text('güncelleme',
-                    style: TextStyle(color: Colors.white)),
+              Card(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    'mail: ${controller.user.value.mail}',
+                  ),
+                ),
               ),
-            )
-          ],
+              const SizedBox(
+                height: 75,
+              ),
+              Card(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child:
+                      Text('kullanıcı adı: ${controller.user.value.nickname}'),
+                ),
+              ),
+              const SizedBox(
+                height: 75,
+              ),
+              Container(
+                width: 200,
+                decoration: BoxDecoration(
+                    color: Colors.blue,
+                    borderRadius: BorderRadius.circular(10)),
+                child: TextButton(
+                  onPressed: profileController.profileInfoUpdateOnPressed,
+                  child: const Text('güncelleme',
+                      style: TextStyle(color: Colors.white)),
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );
