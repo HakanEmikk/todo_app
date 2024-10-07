@@ -2,13 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../models/category_model.dart';
-import '../../models/default_response_model.dart';
-import '../../models/task_model.dart';
 import '../../repositories/task_repository.dart';
 import 'controller/task_controller.dart';
 
 class TaskPage extends StatefulWidget {
-  TaskPage({super.key});
+  const TaskPage({super.key});
 
   @override
   State<TaskPage> createState() => _TaskPageState();
@@ -23,7 +21,6 @@ class _TaskPageState extends State<TaskPage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     controller.fetchTaskList();
   }
@@ -32,11 +29,11 @@ class _TaskPageState extends State<TaskPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Görevler'),
+        title: const Text('Görevler'),
         centerTitle: true,
         leading: IconButton(
             onPressed: controller.profileUpdateOnPressed,
-            icon: Icon(Icons.person)),
+            icon: const Icon(Icons.person)),
       ),
       body: Obx(() => controller.isLoading.value
           ? const Center(child: CircularProgressIndicator())
@@ -47,10 +44,10 @@ class _TaskPageState extends State<TaskPage> {
                     result =
                         (controller.taskList[index].status!.toLowerCase() ==
                             'true');
-                    int id = controller.taskList[index].categoryId!;
-                    String name = controller.categoryList
+                    final int id = controller.taskList[index].categoryId!;
+                    final String name = controller.categoryList
                         .firstWhere(
-                          (element) =>
+                          (CategoryModel element) =>
                               element.id ==
                               id, // Kategori ID'sini kontrol ediyoruz
                           orElse: () =>
@@ -65,25 +62,28 @@ class _TaskPageState extends State<TaskPage> {
                           textAlign: TextAlign.center,
                         ),
                         subtitle: Text(
-                          'katagori: ${name}',
+                          'katagori: $name',
                           textAlign: TextAlign.center,
                         ),
                         trailing: Row(
                           mainAxisSize: MainAxisSize.min,
-                          children: [
-                            const Text('Tamamlandı mı :'),
+                          children: <Widget>[
+                            const Text(
+                              'Tamamlandı mı :',
+                              style: TextStyle(color: Colors.white),
+                            ),
                             Checkbox(
                               value: controller.taskList[index].status!
                                       .toLowerCase() ==
                                   'true',
-                              onChanged: (bool? Value) async {
+                              onChanged: (bool? value) async {
                                 setState(() {
                                   controller.taskList[index].status =
-                                      Value.toString();
+                                      value.toString();
                                 });
-                                final DefaultResponseModel<void> response =
-                                    await TaskRepository()
-                                        .update(controller.taskList[index]);
+
+                                await TaskRepository()
+                                    .update(controller.taskList[index]);
                                 controller.fetchTaskList();
                               },
                             ),
@@ -116,7 +116,7 @@ class _TaskPageState extends State<TaskPage> {
             )),
       floatingActionButton: FloatingActionButton(
         onPressed: controller.taskAddOnPressed,
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
       ),
     );
   }

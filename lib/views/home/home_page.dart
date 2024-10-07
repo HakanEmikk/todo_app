@@ -8,14 +8,14 @@ class HomePage extends StatelessWidget {
   const HomePage({super.key});
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put<HomeController>(HomeController());
+    final HomeController controller = Get.put<HomeController>(HomeController());
 
     return Scaffold(
       body: SizedBox(
         width: 5000,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: [
+          children: <Widget>[
             SizedBox(
               width: 120,
               height: 50,

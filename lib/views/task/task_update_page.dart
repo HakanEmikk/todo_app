@@ -55,21 +55,21 @@ class _TaskUpdatePageState extends State<TaskUpdatePage> {
                             category.catergoryName!), // Düzeltme: categoryName
                       );
                     }).toList(),
-                    onChanged: (newValue) {
+                    onChanged: (String? newValue) {
                       // Seçilen kategori güncelleniyor
                       controller.selectedCategory!.value = newValue!;
                     },
                   ),
                 ),
                 Row(
-                  children: [
+                  children: <Widget>[
                     const Text('Tamamlandı mı :'),
                     Checkbox(
                       value: result,
-                      onChanged: (bool? Value) {
+                      onChanged: (bool? value) {
                         setState(() {
                           controller.taskList[controller.index!].status =
-                              Value.toString();
+                              value.toString();
                         });
                       },
                     ),

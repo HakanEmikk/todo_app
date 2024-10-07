@@ -35,9 +35,18 @@ class LoginController extends GetxController {
           await UserRepository().login(user.value.obs);
 
       user = response.data!;
-      user.value.key = response.token!;
+      user.value.key = response.token;
       print('hhhhhh${user.toJson()}');
-      Get.toNamed<void>('/task_page');
+      if (response.token == null) {
+        Get.showSnackbar(const GetSnackBar(
+          message: 'Şifre veya kullanıcı adı hatalı',
+        ));
+      } else {
+        Get.toNamed<void>('/task_page');
+        Get.showSnackbar(GetSnackBar(
+          message: response.message,
+        ));
+      }
     }
   }
 }

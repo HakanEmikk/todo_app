@@ -50,11 +50,11 @@ class ProfileController extends GetxController {
     return null;
   }
 
-  void updateOnPressed() async {
+  Future<void> updateOnPressed() async {
     if (updateFormKey.currentState!.validate()) {
       updateFormKey.currentState!.save();
 
-      controller.user.update((user) {
+      controller.user.update((UserModel? user) {
         user!.mail = mailController.text;
         user.name = nameController.text;
         user.nickname = nicknameController.text;

@@ -29,7 +29,7 @@ class TaskRepository extends ITaskRepository {
       return DefaultResponseModel<void>.fromJson(
           jsonDecode(response.body) as Map<String, dynamic>);
     } catch (e) {
-      return DefaultResponseModel<void>(message: 'Bir hata oluştu! URR : ${e}');
+      return DefaultResponseModel<void>(message: 'Bir hata oluştu! URR : $e');
     }
   }
 
@@ -52,7 +52,7 @@ class TaskRepository extends ITaskRepository {
       return DefaultResponseModel<void>.fromJson(
           jsonDecode(response.body) as Map<String, dynamic>);
     } catch (e) {
-      return DefaultResponseModel<void>(message: 'Bir hata oluştu! URR : ${e}');
+      return DefaultResponseModel<void>(message: 'Bir hata oluştu! URR : $e');
     }
   }
 
@@ -114,7 +114,7 @@ class TaskRepository extends ITaskRepository {
       return DefaultResponseModel<void>.fromJson(
           jsonDecode(response.body) as Map<String, dynamic>);
     } catch (e) {
-      return DefaultResponseModel<void>(message: 'Bir hata oluştu! URR : ${e}');
+      return DefaultResponseModel<void>(message: 'Bir hata oluştu! URR : $e');
     }
   }
 }

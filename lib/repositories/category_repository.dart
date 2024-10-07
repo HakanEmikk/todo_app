@@ -31,7 +31,7 @@ class CategoryRepository extends ICategoryRepository {
       return DefaultResponseModel<void>.fromJson(
           jsonDecode(response.body) as Map<String, dynamic>);
     } catch (e) {
-      return DefaultResponseModel<void>(message: 'Bir hata oluştu! URR : ${e}');
+      return DefaultResponseModel<void>(message: 'Bir hata oluştu! URR : $e');
     }
   }
 
@@ -75,7 +75,7 @@ class CategoryRepository extends ICategoryRepository {
       );
     } catch (e) {
       return DefaultResponseModel<List<CategoryModel>>(
-          message: 'Bir hata oluştu! TRR : ${e}', data: <CategoryModel>[]);
+          message: 'Bir hata oluştu! TRR : $e', data: <CategoryModel>[]);
     }
   }
 }

@@ -22,7 +22,7 @@ class _LoginPageState extends State<LoginPage> {
         child: Form(
           key: controller.loginFormKey,
           child: Column(
-            children: [
+            children: <Widget>[
               const SizedBox(
                 height: 200,
               ),

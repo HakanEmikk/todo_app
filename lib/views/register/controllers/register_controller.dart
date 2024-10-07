@@ -28,14 +28,14 @@ class RegisterController extends GetxController {
   }
 
   String? nicknameValidator(String? value) {
-    if (value == null || value.length <= 8) {
+    if (value == null || value.length < 8) {
       return '8 karakterden küçük olamaz';
     }
     return null;
   }
 
   String? passwordValidator(String? value) {
-    if (value == null || value.length <= 8) {
+    if (value == null || value.length < 8) {
       return '8 karakterden küçük olamaz';
     }
     return null;

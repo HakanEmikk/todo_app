@@ -23,7 +23,7 @@ class _TaskAddPageState extends State<TaskAddPage> {
         child: Form(
           key: controller.formKey,
           child: Column(
-            children: [
+            children: <Widget>[
               const SizedBox(
                 height: 200,
               ),
@@ -51,7 +51,7 @@ class _TaskAddPageState extends State<TaskAddPage> {
                               .catergoryName!), // Düzeltme: categoryName
                         );
                       }).toList(),
-                      onChanged: (newValue) {
+                      onChanged: (String? newValue) {
                         // Seçilen kategori güncelleniyor
                         controller.selectedCategory!.value = newValue!;
                       },
@@ -59,7 +59,7 @@ class _TaskAddPageState extends State<TaskAddPage> {
                   ),
                   TextButton(
                     onPressed: controller.categoryAddOnPressed,
-                    child: Text('Katagori ekle'),
+                    child: const Text('Katagori ekle'),
                   )
                 ],
               ),
@@ -69,7 +69,7 @@ class _TaskAddPageState extends State<TaskAddPage> {
               // ElevatedButton(
               //     onPressed: controller.pickMultipleFiles,
               //     child: Text('Dosya seç')),
-              SizedBox(
+              const SizedBox(
                 height: 100,
               ),
               TextButton(

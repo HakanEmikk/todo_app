@@ -35,6 +35,7 @@ class TaskController extends GetxController {
   GlobalKey<FormState> formKeyUpdate = GlobalKey();
   LoginController loginController = Get.put(LoginController());
   RxString? selectedCategory = ''.obs;
+
   onInit() {
     super.onInit();
 
@@ -80,7 +81,7 @@ class TaskController extends GetxController {
 
       task.explation = explanationController.text;
       task.status = 'false';
-      task.categoryId = int.parse(selectedCategory!.value!);
+      task.categoryId = int.parse(selectedCategory!.value);
 
       final DefaultResponseModel<void> response =
           await TaskRepository().add(task);
@@ -96,10 +97,10 @@ class TaskController extends GetxController {
     Get.toNamed<void>('/profil_info_page');
   }
 
-  void taskUpdateOnPressed() async {
+  Future<void> taskUpdateOnPressed() async {
     if (formKeyUpdate.currentState!.validate()) {
       formKeyUpdate.currentState!.save();
-      print(categoryController.text.isEmpty);
+
       if (explanationController.text.isEmpty) {
         taskList[index!].explation = taskList[index!].explation;
       } else {
@@ -125,14 +126,14 @@ class TaskController extends GetxController {
     Get.toNamed<void>('/task_update_page');
   }
 
-  void taskDeleteOnPressed(int index) async {
+  Future<void> taskDeleteOnPressed(int index) async {
     final DefaultResponseModel<void> response =
         await TaskRepository().delete(taskList[index]);
     taskList.removeAt(index);
   }
 
   Future<void> pickMultipleFiles(int index) async {
-    FilePickerResult? result = await FilePicker.platform.pickFiles(
+    final FilePickerResult? result = await FilePicker.platform.pickFiles(
       allowMultiple: false,
       type: FileType.any,
     );
@@ -149,16 +150,16 @@ class TaskController extends GetxController {
 
     final html.FileReader reader = html.FileReader();
 
-    reader.onLoadEnd.listen((event) async {
+    reader.onLoadEnd.listen((html.ProgressEvent event) async {
       if (reader.readyState == html.FileReader.DONE) {
-        String task_id = taskList[index].id.toString();
+        final String taskId = taskList[index].id.toString();
         try {
-          final Uri uri = Uri.parse("http://192.168.1.235:3000/files/$task_id");
+          final Uri uri = Uri.parse("http://192.168.1.235:3000/files/$taskId");
           late http.MultipartRequest request;
           request = http.MultipartRequest('POST', uri);
 
           final Uint8List byteData = reader.result! as Uint8List;
-          http.MultipartFile multipartFile = http.MultipartFile.fromBytes(
+          final http.MultipartFile multipartFile = http.MultipartFile.fromBytes(
             'files',
             byteData,
             filename: fileName,

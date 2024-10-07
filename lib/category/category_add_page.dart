@@ -6,7 +6,7 @@ import '../widgets/my_text_form_field.dart';
 import 'controller/category_controller.dart';
 
 class CategoryAddPage extends StatefulWidget {
-  CategoryAddPage({super.key});
+  const CategoryAddPage({super.key});
 
   @override
   State<CategoryAddPage> createState() => _CategoryAddPageState();
@@ -31,7 +31,7 @@ class _CategoryAddPageState extends State<CategoryAddPage> {
         child: Form(
           key: controller.categoryKey,
           child: Column(
-            children: [
+            children: <Widget>[
               MyTextFormField(
                 label: 'katagori',
                 obscureText: false,
